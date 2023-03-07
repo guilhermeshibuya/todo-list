@@ -2,6 +2,9 @@ import { Fragment, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import {
+    addTask
+} from "../services/TaskServices";
 
 const initialState = {
     taskName: "",
@@ -16,6 +19,22 @@ export default function CreateModal(props) {
         [e.currentTarget.id]: e.currentTarget.value
     });
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const task = { ...fields };
+
+        props.setIsFetching(true);
+
+        await addTask(task)
+        .catch(error => {
+            window.alert(error);
+            return;
+        });
+        setFields(initialState);
+        props.setIsFetching(false);
+    }
+
     return (
         <Fragment>
             <Modal show={props.show} onHide={props.handleClose}>
@@ -23,8 +42,8 @@ export default function CreateModal(props) {
                     <Modal.Title>New Task</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form id="taskForm" onSubmit="">
-                        <Form.Group controlId="taskName">
+                    <Form id="taskForm" onSubmit={handleSubmit}>
+                        <Form.Group controlId="name">
                             <Form.Label>Name</Form.Label>
                             <Form.Control 
                                 type="text"
@@ -32,13 +51,13 @@ export default function CreateModal(props) {
                                 onChange={handleFieldsChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="taskStatus">
+                        <Form.Group controlId="done">
                             <Form.Label>Status</Form.Label>
                             <Form.Select
                                 onChange={handleFieldsChange}
                             >
-                                <option value="incomplete">Incomplete</option>
-                                <option value="completed">Completed</option>
+                                <option value="false">Incomplete</option>
+                                <option value="true">Completed</option>
                             </Form.Select>
                         </Form.Group>
                         <div className="mt-3">

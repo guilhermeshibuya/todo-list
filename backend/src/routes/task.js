@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/add', async (req, res) => {
+router.post('/', async (req, res) => {
     let { name, done, date } = req.body;
 
     try {
@@ -23,7 +23,7 @@ router.post('/add', async (req, res) => {
     }
 });
 
-router.put('/update/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     let { name, done, date } = req.body;
 
     try {
