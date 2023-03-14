@@ -12,6 +12,15 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    try {
+        let task = await Task.findById(req.params.id);
+        res.status(200).json(task);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
 router.post('/', async (req, res) => {
     let { name, done, date } = req.body;
 
@@ -41,6 +50,6 @@ router.delete('/:id', async (req, res) => {
     } catch (error) {
         res.status(422).json(error);
     }
-})
+});
 
 module.exports = router;

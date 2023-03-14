@@ -5,6 +5,10 @@ export function getTasks() {
     return axios.get(apiUrl);
 }
 
+export function getTask(id) {
+    return axios.get(apiUrl + "/" + id);
+}
+
 export function addTask(task) {
     return axios.post(apiUrl, task);
 }

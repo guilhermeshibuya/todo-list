@@ -1,9 +1,9 @@
-import HomeScreen from "./screens/Home";
 import "./App.css";
+import RoutesApp from "./routes";
 
 function App() {
   return (
-    <HomeScreen/>
+    <RoutesApp />
   );
 }
 

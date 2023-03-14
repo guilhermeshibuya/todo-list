@@ -29,8 +29,8 @@ export default function PageHeader(props) {
 
     return (
         <Fragment>
-            <Row className="d-flex justify-content-between  mt-4 mx-5">
-                <Col sm="12" md="3">
+            <Row className="d-flex justify-content-between my-4 mx-5">
+                <Col sm="12" md="3" className="px-0">
                     <Button 
                         type="button"
                         variant="primary"
@@ -40,7 +40,7 @@ export default function PageHeader(props) {
                         Add Task
                     </Button>
                 </Col>
-                <Col sm="12" md="3" className="mt-3 mt-md-0">
+                <Col sm="12" md="3" className="mt-3 mt-md-0 px-0">
                     <Form.Select 
                         id="filterOptions"
                         onChange={handleFieldsChange}
@@ -51,13 +51,11 @@ export default function PageHeader(props) {
                     </Form.Select>
                 </Col>
             </Row>
-            <Row>
-                <CreateModal 
-                    setIsFetching={props.setIsFetching}
-                    show={showModal}
-                    handleClose={handleClose}
-                />
-            </Row>
+            <CreateModal 
+                setIsFetching={props.setIsFetching}
+                show={showModal}
+                handleClose={handleClose}
+            />
         </Fragment>  
     );
 }

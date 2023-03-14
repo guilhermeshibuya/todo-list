@@ -3,3 +3,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+/* Task component */
+.task-content:last-child {
+    margin-bottom: 0 !important;
+}
+
+.hero-title {
+    font-size: 6.5vh;
+    font-weight: 500;
+}
+
+.hero-subtitle {
+    font-size: 3.5vh;
+}

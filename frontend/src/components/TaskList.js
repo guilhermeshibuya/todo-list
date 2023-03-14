@@ -1,12 +1,15 @@
 import { useState, useEffect, Fragment } from "react";
 import Task from "./Task";
-import {
-    getTasks
-} from "../services/TaskServices"
+import { getTasks, deleteTask, updateTask } from "../services/TaskServices";
+import CreateModal from "./CreateModal";
 
-export default function TaskList({isFetching}) {
+export default function TaskList({isFetching, setIsFetching}) {
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,13 +37,37 @@ export default function TaskList({isFetching}) {
             <Task 
                 key={task._id}
                 task={task}
+                deleteTask={delTask}
+                editTask={editTask}
+                updateCheck={updateCheckedTask}
+                setIsFetching={setIsFetching}
             />
         );
     }
 
+    const delTask = async (id) => {
+        await deleteTask(id);
+
+        const newTasks = tasks.filter(element => element._id !== id);
+        setTasks(newTasks);
+    }
+
+    const editTask = (task) => {
+        
+        
+        handleShow();
+    }
+
+    const updateCheckedTask = async (task) => {
+        const newTask = task;
+
+
+        await updateTask(task._id, newTask);
+    }
+
     return (
         <Fragment>
-            <div className="bg-danger">
+            <div className="bg-secondary mx-5 py-3 rounded">
                 {
                     isLoading ? (
                         <div>Loading...</div>
@@ -49,6 +76,10 @@ export default function TaskList({isFetching}) {
                     )
                 }
             </div>
+            <CreateModal 
+                show={showModal} 
+                handleClose={handleClose}
+            />
         </Fragment>
-    )
+    );
 }

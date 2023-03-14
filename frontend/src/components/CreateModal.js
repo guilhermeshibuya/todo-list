@@ -49,6 +49,7 @@ export default function CreateModal(props) {
                                 type="text"
                                 placeholder="Enter task name"
                                 onChange={handleFieldsChange}
+                                value={props.name}
                             />
                         </Form.Group>
                         <Form.Group controlId="done">

@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomeScreen from "./screens/Home";
+import TasksScreen from "./screens/Tasks";
 
-const RoutesApp = () => {
+export default function RoutesApp() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route />
+                <Route path="/" element={ <HomeScreen/> }/>
+                <Route path="/tasks" element={ <TasksScreen /> }/>
             </Routes>
         </BrowserRouter>
     );
