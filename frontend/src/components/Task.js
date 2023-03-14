@@ -3,26 +3,18 @@ import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import moment from "moment/moment";
+import CreateModal from "./CreateModal";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { useEffect, useState } from "react";
-import { getTask, updateTask } from "../services/TaskServices";
+import { Fragment, useState } from "react";
+import { updateTask } from "../services/TaskServices";
 import "../App.css"
 
 export default function Task(props) {
     const [isChecked, setIsChecked] = useState(props.task.done);
+    const [showModal, setShowModal] = useState(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getTask(props.task._id);
-
-                setIsChecked(response.data.done);
-            } catch (error) {
-                alert(error);
-            }
-        }
-        fetchData();
-    }, [props.task._id]);
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
     const handleCheck = async (e) => {
         try {
@@ -53,37 +45,46 @@ export default function Task(props) {
     }
 
     return (
-        <Row className="d-flex justify-content-between align-items-center bg-light rounded mb-3 mx-3 task-content p-1">
-            <Col sm="1">
-                <Form.Group controlId="isDone" className="me-3">
-                    <Form.Check 
-                        type="checkbox" 
-                        checked={ isChecked } 
-                        onChange={ handleCheck } 
-                    />
-                </Form.Group>
-            </Col>
-            <Col sm="6">
-                <Row>{taskName()}</Row>
-                <Row>{moment(props.task.date).format("LT, L")}</Row>    
-            </Col>
-            <Col sm="3">
-                {status()}
-            </Col>
-            <Col sm="1">
-                <Button 
-                    onClick={() => props.deleteTask(props.task._id)}
-                >
-                    <AiFillDelete />
-                </Button>
-            </Col>
-            <Col sm="1">
-                <Button
-                    onClick={() => props.editTask(props.task)}
-                >
-                    <AiFillEdit  />
-                </Button> 
-            </Col>
-        </Row>
+        <Fragment>
+            <Row className="d-flex justify-content-between align-items-center bg-light rounded mb-3 mx-3 task-content p-1">
+                <Col sm="1">
+                    <Form.Group controlId="isDone" className="me-3">
+                        <Form.Check 
+                            type="checkbox" 
+                            checked={ isChecked } 
+                            onChange={ handleCheck } 
+                        />
+                    </Form.Group>
+                </Col>
+                <Col sm="6">
+                    <Row>{taskName()}</Row>
+                    <Row>{moment(props.task.date).format("LT, L")}</Row>    
+                </Col>
+                <Col sm="3">
+                    {status()}
+                </Col>
+                <Col sm="1">
+                    <Button 
+                        onClick={() => props.deleteTask(props.task._id)}
+                    >
+                        <AiFillDelete />
+                    </Button>
+                </Col>
+                <Col sm="1">
+                    <Button
+                        onClick={() => handleShow()}
+                    >
+                        <AiFillEdit  />
+                    </Button> 
+                </Col>
+            </Row>
+            <CreateModal 
+                task={props.task}
+                setIsFetching={props.setIsFetching}
+                show={showModal} 
+                handleClose={handleClose}
+                reqType="update"
+            />
+        </Fragment>
     );
 }

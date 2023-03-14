@@ -2,24 +2,27 @@ import { Fragment, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import {
-    addTask
-} from "../services/TaskServices";
+import { addTask, updateTask } from "../services/TaskServices";
 
 const initialState = {
-    taskName: "",
-    taskStatus: "incomplete"
+    name: "",
+    done: false
 }
 
 export default function CreateModal(props) {
-    const [fields, setFields] = useState(initialState);
-
-    const handleFieldsChange = e => setFields({
-        ...fields,
-        [e.currentTarget.id]: e.currentTarget.value
+    const [fields, setFields] = useState(props.reqType === "insert" ? initialState : {
+        name: props.task.name,
+        done: props.task.done
     });
 
-    const handleSubmit = async (e) => {
+    const handleFieldsChange = e => {
+        setFields({
+            ...fields,
+            [e.currentTarget.id]: e.currentTarget.value
+        });
+    }
+
+    const handleCreateSubmit = async (e) => {
         e.preventDefault();
 
         const task = { ...fields };
@@ -31,31 +34,57 @@ export default function CreateModal(props) {
             window.alert(error);
             return;
         });
-        setFields(initialState);
+
         props.setIsFetching(false);
+        setFields(initialState);
+    }
+
+    const handleUpdateSubmit = async (e) => {
+        e.preventDefault();
+
+        const task = { ...fields };
+
+        props.setIsFetching(true);
+
+        await updateTask(props.task._id, task)
+
+        props.setIsFetching(false);
+        setFields(initialState);
+    }
+
+    const resetFieldsOnClose = () => {
+        props.handleClose(); 
+        if (props.reqType === "update") {
+            setFields({ 
+                name: props.task.name, 
+                done: props.task.done 
+            });
+        }  
     }
 
     return (
         <Fragment>
-            <Modal show={props.show} onHide={props.handleClose}>
+            <Modal show={props.show} onHide={resetFieldsOnClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>New Task</Modal.Title>
+                    <Modal.Title>{props.reqType === "insert" ? "New task" : "Edit task"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form id="taskForm" onSubmit={handleSubmit}>
+                    <Form id="taskForm" onSubmit={props.reqType === "update" ? handleUpdateSubmit : handleCreateSubmit}>
                         <Form.Group controlId="name">
                             <Form.Label>Name</Form.Label>
                             <Form.Control 
                                 type="text"
                                 placeholder="Enter task name"
                                 onChange={handleFieldsChange}
-                                value={props.name}
+                                value={fields.name}
+                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="done">
                             <Form.Label>Status</Form.Label>
                             <Form.Select
                                 onChange={handleFieldsChange}
+                                value={fields.done}
                             >
                                 <option value="false">Incomplete</option>
                                 <option value="true">Completed</option>
@@ -68,12 +97,12 @@ export default function CreateModal(props) {
                                 variant="primary"
                                 onClick={props.handleClose}
                             >
-                                Add Task
+                                {props.reqType === "insert" ? "Add task" : "Update task"}
                             </Button>
                             <Button
                                 type="button"
                                 variant="secondary"
-                                onClick={props.handleClose}
+                                onClick={resetFieldsOnClose}
                             >
                                 Close
                             </Button>

@@ -5,27 +5,15 @@ import Form from "react-bootstrap/Form";
 import { Fragment, useState } from "react";
 import CreateModal from "./CreateModal";
 
-const initialState = {
-    filterOptions: "" 
-}
-
 export default function PageHeader(props) {
-    const [fields, setFields] = useState(initialState);
     const [showModal, setShowModal] = useState(false);
 
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
 
-    const handleFieldsChange = e => setFields({
-        ...fields,
-        [e.currentTarget.id]: e.currentTarget.value 
-    });
-
-    // const updateFields = value => {
-    //     return setFields(prev => {
-    //         return { ...prev, ...value };
-    //     });
-    // }
+    const handleFieldsChange = e => {
+        props.setFilter(e.target.value);
+    }
 
     return (
         <Fragment>
@@ -55,6 +43,7 @@ export default function PageHeader(props) {
                 setIsFetching={props.setIsFetching}
                 show={showModal}
                 handleClose={handleClose}
+                reqType="insert"
             />
         </Fragment>  
     );
