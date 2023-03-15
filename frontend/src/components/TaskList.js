@@ -1,11 +1,12 @@
 import { useState, useEffect, Fragment } from "react";
 import { getTasks, deleteTask } from "../services/TaskServices";
+import DeleteModal from "./DeleteModal";
 import Task from "./Task";
 
 export default function TaskList({isFetching, setIsFetching, filter}) {
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
@@ -46,15 +47,13 @@ export default function TaskList({isFetching, setIsFetching, filter}) {
 
     return (
         <Fragment>
-            <div className="bg-secondary mx-5 py-3 rounded">
-                {
-                    isLoading ? (
-                        <div>Loading...</div>
-                    ) : (
-                        taskList()
-                    )
-                }
-            </div>
+            {
+                isLoading ? (
+                    <div className="d-flex justify-content-center bg-secondary mx-5 py-4 rounded"><div className="loader"></div></div> 
+                ) : (
+                    <div className="bg-secondary mx-5 py-3 rounded">{taskList()}</div>
+                )
+            }
         </Fragment>
     );
 }
