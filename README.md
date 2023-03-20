@@ -10,13 +10,10 @@ Todo List made with MongoDB, Express.js, React and NodeJS.
 - `Feature 4`: Checkbox to mark if the task is done, and if it is, will cross out the name and change the status to complete.
 
 # :computer: Used technologies
-<h2>Front-end<h2/>
-- `ReactJS`;
-- `Bootstrap`;
-- `React Bootstrap`;
-- `React Router Dom`;
-
-<h2>Back-end<h2/>
-- `NodeJS`;
-- `Express.js`;
-- `MongoDB`;
+- `ReactJS`:
+- `Bootstrap`
+- `React Bootstrap`
+- `React Router Dom`
+- `NodeJS`
+- `Express.js`
+- `MongoDB`
