@@ -11,12 +11,12 @@ Todo List made with MongoDB, Express.js, React and NodeJS.
 
 # :computer: Used technologies
 <h2>Front-end<h2/>
-- `ReactJS`
-- `Bootstrap`
-- `React Bootstrap`
-- `React Router Dom`
+- `ReactJS`;
+- `Bootstrap`;
+- `React Bootstrap`;
+- `React Router Dom`;
 
 <h2>Back-end<h2/>
-- `NodeJS`
-- `Express.js`
-- `MongoDB`
+- `NodeJS`;
+- `Express.js`;
+- `MongoDB`;
