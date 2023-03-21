@@ -41,9 +41,9 @@ export default function Task(props) {
 
     const taskName = () => {
         if (isChecked) {
-            return <Row><s>{props.task.name}</s></Row>
+            return <s>{props.task.name}</s>
         }  
-        return <Row>{props.task.name}</Row>
+        return <div>{props.task.name}</div>
     }
 
     const status = () => {
@@ -65,22 +65,24 @@ export default function Task(props) {
                         />
                     </Form.Group>
                 </Col>
-                <Col sm="6">
-                    <Row>{taskName()}</Row>
-                    <Row>{moment(props.task.date).format("LT, L")}</Row>    
+                <Col sm="4">
+                    <div>{taskName()}</div>
+                    <div>{moment(props.task.date).format("LT, L")}</div>    
                 </Col>
                 <Col sm="3">
                     {status()}
                 </Col>
-                <Col sm="1">
+                <Col sm="2">
                     <Button 
+                        className="mb-2 mb-sm-0 "
                         onClick={() => handleDeleteShow()}
                     >
                         <AiFillDelete />
                     </Button>
                 </Col>
-                <Col sm="1">
+                <Col sm="2">
                     <Button
+                        className="mb-2 mb-sm-0"
                         onClick={() => handleShow()}
                     >
                         <AiFillEdit  />
